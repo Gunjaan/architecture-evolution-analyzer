@@ -1,16 +1,7 @@
----
-title: Architecture Evolution Analyzer
-emoji: 🧬
-colorFrom: indigo
-colorTo: purple
-sdk: docker
-app_port: 7860
----
-
 # Architecture Evolution Analyzer
 
-Paste a public GitHub repository URL to analyze sampled Git history,
-Python/JavaScript/TypeScript/TSX source metrics, dependency drift,
-hotspots, and an AI explanation.
+AI-powered developer tool that analyzes Git history to detect **code growth, complexity changes, architectural drift, and evolving code hotspots**, then uses an open-source LLM to explain the findings.
 
-For deployment, add `HF_TOKEN` as a Space Secret. Never commit it.
+### Technologies
+
+`Python` · `GitPython` · `AST Analysis` · `Hugging Face` · `Gradio`
