@@ -4,11 +4,6 @@ Architecture Evolution Analyzer is a FastAPI web application that samples a publ
 
 The application uses server-rendered [Jinja2](https://jinja.palletsprojects.com/) templates for the dashboard and a small JSON API for submitting and polling analyses. The analyzer itself remains independent from HTTP and UI concerns.
 
-<<<<<<< Updated upstream
-`Python` · `GitPython` · `AST Analysis` · `Hugging Face` · `Gradio`
-
-https://architecture-evolution-analyzer.onrender.com/
-=======
 ## Architecture
 
 ```text
@@ -85,4 +80,3 @@ docker run --rm -p 7860:7860 --env-file .env architecture-evolution-analyzer
 - Analysis clones the complete history; set operational limits before exposing it publicly.
 - AST metrics support Python, JavaScript, TypeScript/TSX, Java, and Kotlin.
 - Dependency detection recognizes local imports heuristically; it is not a full language-aware resolver.
->>>>>>> Stashed changes
