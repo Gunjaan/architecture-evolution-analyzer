@@ -28,9 +28,7 @@ class SnapshotMetrics(BaseModel):
     dependency_edges: int
     dependency_cycles: int
 
-    file_metrics: list[FileMetrics] = Field(
-        default_factory=list
-    )
+    file_metrics: list[FileMetrics] = Field(default_factory=list)
 
 
 class FileEvolution(BaseModel):
@@ -78,13 +76,9 @@ class EvolutionReport(BaseModel):
 
     supported_files: int
 
-    unsupported_extensions: dict[str, int] = Field(
-        default_factory=dict
-    )
+    unsupported_extensions: dict[str, int] = Field(default_factory=dict)
 
-    languages: dict[str, int] = Field(
-        default_factory=dict
-    )
+    languages: dict[str, int] = Field(default_factory=dict)
 
     snapshots: list[SnapshotMetrics]
 

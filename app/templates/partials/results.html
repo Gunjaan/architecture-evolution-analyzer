@@ -1,0 +1,66 @@
+<section id="results" class="results" hidden aria-live="polite">
+  <header class="results-header">
+    <div>
+      <p class="eyebrow">Evolution report</p>
+      <h2 id="report-title">Repository analysis</h2>
+      <p id="report-context" class="results-context"></p>
+    </div>
+    <span class="report-status"><span class="status-dot"></span> Analysis complete</span>
+  </header>
+
+  <div id="summary-metrics" class="metric-grid"></div>
+
+  <section id="insight-summary" class="insight-card"></section>
+
+  <div class="results-grid">
+    <section class="card">
+      <div class="card-heading">
+        <div>
+          <p class="card-kicker">Codebase composition</p>
+          <h3>Source languages</h3>
+        </div>
+      </div>
+      <p class="card-description">Files included in structural analysis at the latest snapshot.</p>
+      <div id="languages" class="language-list"></div>
+    </section>
+    <section class="card">
+      <div class="card-heading">
+        <div>
+          <p class="card-kicker">Change detection</p>
+          <h3>Architectural drift</h3>
+        </div>
+        <span id="drift-count" class="count-badge"></span>
+      </div>
+      <p class="card-description">Large shifts between sampled commits that warrant review.</p>
+      <div id="drift-events"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="card-heading">
+      <div>
+        <p class="card-kicker">Prioritize review</p>
+        <h3>Evolving hotspots</h3>
+      </div>
+      <span class="table-note">Ranked by growth, complexity, and persistence</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Lines</th><th>Growth</th><th>Functions</th><th>Branches</th><th>Risk score</th></tr></thead>
+        <tbody id="hotspots"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="ai-section" class="card" hidden>
+    <div class="card-heading interpretation-heading">
+      <div>
+        <p id="interpretation-kicker" class="card-kicker">AI-powered</p>
+        <h3>Architectural interpretation</h3>
+      </div>
+      <span id="interpretation-badge" class="insight-badge">AI analysis</span>
+    </div>
+    <div id="interpretation-notice" hidden></div>
+    <div id="ai-explanation" class="prose"></div>
+  </section>
+</section>

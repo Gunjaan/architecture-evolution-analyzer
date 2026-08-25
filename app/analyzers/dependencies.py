@@ -1,13 +1,25 @@
 import re
+from pathlib import Path
+
 import networkx as nx
+
 from .code_parser import EXTENSIONS, SKIP_DIRS
 
-IMPORT_RE = re.compile(r'''(?:import\s+(?:[^'"]+\s+from\s+)?|from\s+|require\(\s*|import\(\s*)['"]([^'"]+)['"]''')
+IMPORT_RE = re.compile(
+    r"""(?:import\s+(?:[^'"]+\s+from\s+)?|from\s+|require\(\s*|import\(\s*)['"]([^'"]+)['"]"""
+)
+
 
 class DependencyAnalyzer:
-    def build_graph(self, root):
-        graph = nx.DiGraph()
-        files = [p for p in root.rglob("*") if p.is_file() and not any(x in SKIP_DIRS for x in p.parts) and p.suffix.lower() in EXTENSIONS]
+    def build_graph(self, root: Path) -> nx.DiGraph:
+        graph: nx.DiGraph = nx.DiGraph()
+        files = [
+            path
+            for path in root.rglob("*")
+            if path.is_file()
+            and not any(part in SKIP_DIRS for part in path.parts)
+            and path.suffix.lower() in EXTENSIONS
+        ]
         module_map = {self.module_name(root, p): p for p in files}
         for path in files:
             source = self.module_name(root, path)
@@ -19,12 +31,18 @@ class DependencyAnalyzer:
                     graph.add_edge(source, local)
         return graph
 
-    def module_name(self, root, path):
+    def module_name(self, root: Path, path: Path) -> str:
         return str(path.relative_to(root).with_suffix(""))
 
-    def resolve(self, root, source, target, module_map):
+    def resolve(
+        self,
+        root: Path,
+        source_path: Path,
+        target: str,
+        module_map: dict[str, Path],
+    ) -> str | None:
         if target.startswith("."):
-            base = source.parent
+            base = source_path.parent
             dots = len(target) - len(target.lstrip("."))
             target = target[dots:]
             for _ in range(max(dots - 1, 0)):
@@ -46,5 +64,5 @@ class DependencyAnalyzer:
                 return name
         return None
 
-    def cycle_count(self, graph):
+    def cycle_count(self, graph: nx.DiGraph) -> int:
         return sum(1 for _ in nx.simple_cycles(graph))

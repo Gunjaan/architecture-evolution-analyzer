@@ -1,4 +1,7 @@
-def build_evidence(report):
+from app.models import EvolutionReport
+
+
+def build_evidence(report: EvolutionReport) -> str:
 
     lines = [
         f"Repository: {report.repository}",
@@ -15,7 +18,6 @@ def build_evidence(report):
     # --------------------------------
 
     for snapshot in report.snapshots:
-
         lines.append(
             f"- {snapshot.short_sha}: "
             f"lines={snapshot.lines}, "
@@ -32,13 +34,14 @@ def build_evidence(report):
     # File evolution
     # --------------------------------
 
-    lines.extend([
-        "",
-        "Top evolving files:",
-    ])
+    lines.extend(
+        [
+            "",
+            "Top evolving files:",
+        ]
+    )
 
     for file in report.hotspots[:10]:
-
         lines.append(
             f"- {file.path} "
             f"[{file.language}]: "
@@ -62,26 +65,61 @@ def build_evidence(report):
     # Drift events
     # --------------------------------
 
-    lines.extend([
-        "",
-        "Detected drift events:",
-    ])
+    lines.extend(
+        [
+            "",
+            "Detected drift events:",
+        ]
+    )
 
     if not report.drift_events:
-
-        lines.append(
-            "- None detected."
-        )
+        lines.append("- None detected.")
 
     else:
-
         for event in report.drift_events:
-
             lines.append(
                 f"- {event.severity}: "
                 f"{event.type} at "
                 f"{event.commit[:8]} — "
                 f"{event.message}"
             )
+
+    return "\n".join(lines)
+
+
+def build_fallback_explanation(report: EvolutionReport) -> str:
+    """Build a helpful report when the optional LLM provider is unavailable."""
+
+    lines = [
+        "## Architectural interpretation",
+        "",
+        (
+            "The optional AI provider is temporarily unavailable. "
+            "This deterministic summary is based on the collected repository metrics."
+        ),
+        "",
+        "## Repository profile",
+        (
+            f"{report.total_commits} commits were sampled into "
+            f"{report.snapshots_analyzed} historical snapshots, covering "
+            f"{report.supported_files} supported source files."
+        ),
+    ]
+
+    if report.hotspots:
+        lines.extend(["", "## Top hotspots"])
+        for hotspot in report.hotspots[:5]:
+            lines.append(
+                f"- `{hotspot.path}`: {hotspot.latest_lines} lines, "
+                f"{hotspot.line_change_percent:+.1f}% line growth, "
+                f"risk score {hotspot.score}."
+            )
+
+    lines.extend(["", "## Drift signals"])
+    if report.drift_events:
+        for event in report.drift_events[:5]:
+            lines.append(f"- {event.severity.title()}: {event.message}")
+    else:
+        lines.append("- No configured architectural drift thresholds were crossed.")
 
     return "\n".join(lines)

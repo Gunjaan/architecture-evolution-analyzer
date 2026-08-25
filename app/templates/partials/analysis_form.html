@@ -1,0 +1,19 @@
+<section class="card analysis-card" aria-labelledby="analysis-form-title">
+  <h2 id="analysis-form-title">Analyze a repository</h2>
+  <p class="muted">Public GitHub repositories only. Analysis samples commit history and may take a few minutes.</p>
+  <form id="analysis-form" novalidate>
+    <label for="repository-url">GitHub repository URL</label>
+    <input id="repository-url" name="repository_url" type="url" placeholder="https://github.com/owner/repository" required>
+
+    <div class="field-row">
+      <div>
+        <label for="snapshot-count">Historical snapshots</label>
+        <input id="snapshot-count" name="snapshot_count" type="number" min="1" max="{{ max_snapshots }}" value="{{ default_snapshots }}" required>
+      </div>
+      <p class="field-hint">More snapshots provide finer-grained evolution analysis.</p>
+    </div>
+
+    <button id="submit-button" type="submit">Analyze repository</button>
+  </form>
+  <p id="analysis-status" class="status" aria-live="polite"></p>
+</section>
