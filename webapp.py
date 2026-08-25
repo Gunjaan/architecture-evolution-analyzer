@@ -726,6 +726,28 @@ footer {
     font-weight: 700 !important;
 }
 
+/* Gradio error messages */
+.gradio-container .error,
+.gradio-container .error-message,
+.gradio-container [role="alert"] {
+    color: #7f3f48 !important;
+    background: #fff3f3 !important;
+    border-color: #edcccc !important;
+}
+
+.gradio-container [role="alert"] *,
+.gradio-container .error *,
+.gradio-container .error-message * {
+    color: #7f3f48 !important;
+}
+
+/* Error icon */
+.gradio-container [role="alert"] svg {
+    color: #a6535d !important;
+    fill: #a6535d !important;
+    stroke: #a6535d !important;
+}
+
 
 /* ============================================================
    MOBILE
